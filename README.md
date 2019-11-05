@@ -21,7 +21,7 @@ CKB 的发行曲线由两部分组成：
 
 如果在 CKB 中只有基础发行而没有二级发行，那么 CKByte 的总供应量将会存在一个硬顶，其发行曲线将会和比特币完全一样。为了保障 CKB 的长期持有者不被二级发行稀释，在 Nervos DAO 中锁定的 CKByte 将获得部分比例的二级发行，该比例等于锁定在 Nervos DAO 中的 CKByte 占整个 CKByte 流通量的百分比。
 
-更多关于 Nervos DAO 和 CKB 经济模型的细节，请查看[Nervos RFC #0015](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0015-ckb-cryptoeconomics/0015-ckb-cryptoeconomics.md)。
+更多关于 Nervos DAO 和 CKB 经济模型的细节，请查看 [Nervos RFC #0015](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0015-ckb-cryptoeconomics/0015-ckb-cryptoeconomics.md)。
 
 ## 存款
 
@@ -372,7 +372,7 @@ CKB 的区块头有一个名为 `dao` 的特殊字段，其中包含了使用 Ne
 
 在这个交易中有几个重要的地方值得注意：
 
-* 该交易的 `header_deps 包含两个 header：`0x3553c12dc0c2ba432ede6900c0187c86eececdc748a7244d48df789ad7e2d8f0` 包含了原始 Nervos DAO 存款单所在的区块头哈希，而 `0x460884f23454f885fad82f5bdcf74c76c66c0c90ac1791031a4acdb998c1e388` 是 Nervos DAO 取款单所在的区块。
+* 该交易的 `header_deps` 包含两个 header：`0x3553c12dc0c2ba432ede6900c0187c86eececdc748a7244d48df789ad7e2d8f0` 包含了原始 Nervos DAO 存款单所在的区块头哈希，而 `0x460884f23454f885fad82f5bdcf74c76c66c0c90ac1791031a4acdb998c1e388` 是 Nervos DAO 取款单所在的区块。
 * 因为 `0x3553c12dc0c2ba432ede6900c0187c86eececdc748a7244d48df789ad7e2d8f0` 位于 `header_deps` 中的索引 `0` 处，数字 `0` 将会以 64 位未签名小端序整数的格式打包，即 `0000000000000000`，并被附加到与 Nervos DAO Input Cell 对应的 Witness 末尾。
 * Nervos DAO Input Cell 中有一个 `0x200708027a0000b5` 的 `since` 字段，它的计算如下：
     * 存款区块的区块头 Epoch 值为 `0x708027a000001`，即 `1 + 634 / 1800` 个 Epoch
@@ -381,14 +381,17 @@ CKB 的区块头有一个名为 `dao` 的特殊字段，其中包含了使用 Ne
     * 因为在 Since 字段中使用的是绝对 Epoch 数，所以需要使用必要的标志使值为 `0x200708027a0000b5`。有关格式的详细信息，请参阅 since RFC。
 
 
-使用与上面相同的计算方式，取款区块 `0x460884f23454f885fad82f5bdcf74c76c66c0c90ac1791031a4acdb998c1e388` 的 `AR` 为 `1.10936752310189367。
+使用与上面相同的计算方式，取款区块 `0x460884f23454f885fad82f5bdcf74c76c66c0c90ac1791031a4acdb998c1e388` 的 `AR` 为 `1.10936752310189367`。
 
 
 现在可以计算出从上述 Nervos DAO Input Cell 中可以提取的最大 Capacity 为：
 
 `total_capacity` = 12000000000
+
 `occupied_capacity` = 10200000000 (8 CKB 用于 Capacity, 53 byte 用于 lock script, 33 bytes 用于 type script, 这些的总和为 94 byte, 即 9400000000 shannons)
+
 `counted_capacity` = 12000000000 - 10200000000 = 1800000000
+
 `maximum_withdraw_capacity` = 1800000000 * 11093675231018937 / 10371006727464837 + 10200000000 = 12125426907 = 0x2d2bb54db
 
 这里的 `0x2d2bb54db` 正是上面交易中 Output Cell 的容量。
