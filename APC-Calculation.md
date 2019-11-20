@@ -27,7 +27,7 @@ We use the data above to calculate compensation rate.
 
 Let's say `C_i` is the the total issuance up to and including block `i`. `P_i` is the total primary issuance in future 365 days since block `i`. The APC of deposit begin at this block should be:
 
-```python
+```c
 APC_y = 1.344B / (C_i + P_i) * 100%
 ```
 
@@ -35,7 +35,7 @@ APC_y = 1.344B / (C_i + P_i) * 100%
 
 If user only deposit for one month or limited period like `D` days. In future `D` days, there will be `C_d` primary and secondary issuance. The APC equation is slightly different from that above.
 
-```python
+```c
 APC_d = 1.344B / (C_i + C_d) * (365 / D) * 100% 
 ```
 
