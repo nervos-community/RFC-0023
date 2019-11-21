@@ -21,22 +21,49 @@ CKB’s block header has a special field named dao containing auxiliary informat
 
 ## Compensation Rate
 
-We use the data above to calculate compensation rate.
+> Question to Solve: from block `i`, where total total issuance up to and including block `i` is `C_i`, what is the prospective compensation rate in the next month / year / years?
 
-### APC (Annual Percentage Compensation) at Specific Block
+We use the data above to calculate compensation rate. It is noticed that, the secondary issuance velocity is always uniform, and the primary issuance velocity may change.
 
-Let's say `C_i` is the the total issuance up to and including block `i`. `P_i` is the total primary issuance in future 365 days since block `i`. The APC of deposit begin at this block should be:
+### Assume primary issuance is uniform during compensation calculation period
 
-```c
-APC_y = 1.344B / (C_i + P_i) * 100%
+Let secondary issuance in single time interval is `dx`. The ratio of primary issuance to secondary issuance in every block is `a`. There will have been `S_n` secondary issuance since block `i` in the estimation period. The compensation rate in this period is
+
+![](http://latex.codecogs.com/gif.latex?\\prod^{S_n}\\left(1+\\frac{dx}{C_i+(\\alpha+1)x}\\right)-1\\approx\\int_{0}^{S_n}\\frac{dx}{C_i+(\\alpha+1)x}=\\frac{\\ln{((\\alpha+1)S_n+C_i)}-\\ln{C_i}}{(\\alpha+1)})
+
+**Example: annual percentage compensation from genesis to the end of first year**
+```yml
+C_0 = 33.6B
+S_n = 1.344B
+a = 4.2/1.344 = 3.125
+APC = 0.037 = 3.7%
 ```
 
-### APC in Period Calculation
-
-If user only deposit for one month or limited period like `D` days. In future `D` days, there will be `C_d` primary and secondary issuance. The APC equation is slightly different from that above.
-
-```c
-APC_d = 1.344B / (C_i + C_d) * (365 / D) * 100% 
+**Example: average annual percentage compensation from genesis to half of the first year**
+```yml
+C_0 = 33.6B
+S_n = 1.344B / 2
+a = 4.2/1.344 = 3.125
+APC = 0.0192 * 2 = 3.84%
 ```
 
-The APC_d is a linear approximate value, APC_d should be greater than `APC_y` if `D` < 365, and should be less than `APC_y` if `D` > 365.
+### Assume primary issuance is not uniform during compensation calculation period
+
+We should separately calculate the compensation rate, and combine them.
+
+**Example: average annual percentage compensation from year 3.5 to year 4.5**
+```yml
+// first half year:
+C_3_5 = 33.6 + 4.2*3.5 + 1.344*3.5 = 53.004
+S_n = 1.344 / 2 = 0.672
+a = 4.2/1.344 = 3.125
+r_1 = 0.0124
+// sencond half year:
+C_4 = 33.6 + 4.2*4 + 1.344*4 = 55.776
+S_n = 1.344 / 2 = 0.672
+a = 2.1/1.344 = 3.125 = 1.5625
+r_2 = 0.0119
+// combine
+APC = (1+0.0124)*(1+0.0119) - 1 = 2.4%
+```
+
