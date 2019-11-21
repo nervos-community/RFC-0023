@@ -67,3 +67,29 @@ r_2 = 0.0119
 APC = (1+0.0124)*(1+0.0119) - 1 = 2.44%
 ```
 
+## Simple Calculation Formula
+> If I deposit CKBytes at epoch `e`, block `i`, how much compensation will I get after `n` epochs?
+
+**requirement**
+- `n` must greater than `180`
+- we assume that user send withdraw request at perfect time
+
+**pre-calculation**
+- `C_i`, the total issuance up to and including block `i`
+- `S_n`, the prospective secondary issuance in future `n` epochs. `S_n = n * s`, where `s` is constant.
+- `P_n`, the prospective primary issuance in future `n` epochs. `P_n = n * p`, where `p` is constant in one 4-year-half period, if not, we calculate the result separately.
+- `a`, the ratio of primary issuance to secondary issuance in every block, `a = p/s` if `p` is constant.
+
+**formula**
+
+![](http://latex.codecogs.com/gif.latex?rate=\\frac{1}{\\alpha+1}\\ln{\\left(1+\\frac{(\\alpha+1)s}{C_i}\\cdot%20n\\right)})
+
+**useful constants**
+- epochs in one natural year: `365*24/4 = 2190`
+- `C_i`: data field embeded in block header.
+- `s`: secondary issuance per epoch, always equals to `1.344B / 2190`
+- `p_1`: primary issuance per epoch in first 4-year-half period, equals to `4.2B / 2190`
+- `p_2`: primary issuance per epoch in second 4-year-half period, equals to `2.1B / 2190`
+- `a_1`: the ratio of primary issuance to secondary issuance in first 4-year-half period, `4.2/1.344 = 3.125`
+- `a_2`: the ratio of primary issuance to secondary issuance in first 4-year-half period, `2.1/1.344 = 1.5625`
+
