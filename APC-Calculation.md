@@ -86,7 +86,7 @@ APC = (1+0.0124)*(1+0.0119) - 1 = 2.44%
 
 **formula**
 
-![](http://latex.codecogs.com/gif.latex?rate=\\frac{1}{\\alpha+1}\\ln{\\left(1+\\frac{(\\alpha+1)s}{C_i}\\cdot%20n\\right)})
+![](http://latex.codecogs.com/gif.latex?rate_{lowbound}=\\frac{1}{\\alpha+1}\\ln{\\left(1+\\frac{(\\alpha+1)s}{C_i}\\cdot%20n\\right)})
 
 **useful constants**
 - epochs in one natural year: `365*24/4 = 2190`
