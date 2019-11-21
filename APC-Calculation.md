@@ -21,7 +21,7 @@ CKB’s block header has a special field named dao containing auxiliary informat
 
 ## Compensation Rate
 
-> Question to Solve: from block `i`, where total total issuance up to and including block `i` is `C_i`, what is the prospective compensation rate in the next month / year / years?
+> Question to Solve: from block `i`, where total issuance up to and including block `i` is `C_i`, what is the prospective compensation rate in the next month / year / years?
 
 We use the data above to calculate compensation rate. It is noticed that, the secondary issuance velocity is always uniform, and the primary issuance velocity may change.
 
