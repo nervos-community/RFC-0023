@@ -27,9 +27,11 @@ We use the data above to calculate compensation rate. It is noticed that, the se
 
 ### Assume primary issuance is uniform during compensation calculation period
 
-Let secondary issuance in single time interval is `dx`. The ratio of primary issuance to secondary issuance in every block is `a`. There will have been `S_n` secondary issuance since block `i` in the estimation period. The compensation rate in this period is
+Let's say secondary issuance in single time interval is `dx`. The ratio of primary issuance to secondary issuance in every block is `a`. There will have been `S_n` secondary issuance since block `i` in the estimation period. And `t` means the treasury portion of secondary issuance. The compensation rate in this period is
 
-![](http://latex.codecogs.com/gif.latex?\\prod^{S_n}\\left(1+\\frac{dx}{C_i+(\\alpha+1)x}\\right)-1\\approx\\int_{0}^{S_n}\\frac{dx}{C_i+(\\alpha+1)x}=\\frac{\\ln{((\\alpha+1)S_n+C_i)}-\\ln{C_i}}{(\\alpha+1)})
+![](http://latex.codecogs.com/gif.latex?\\prod^{S_n}\\left(1+\\frac{dx}{C_i+(\\alpha+1)x-t}\\right)-1\\approx\\int_{0}^{S_n}\\frac{dx}{C_i+(\\alpha+1)x-t}\\approx\\int_{0}^{S_n}\\frac{dx}{C_i+(\\alpha+1)x}=\\frac{\\ln{((\\alpha+1)S_n+C_i)}-\\ln{C_i}}{(\\alpha+1)})
+
+> **Notice**: treasury portion `t` is never issued, and it's varying according to Nervos DAO locked portion and CKBytes used portion, which are unpredictable. We simply ignore the `t` part to get the lower bound of compensation rate.
 
 **Example: annual percentage compensation from genesis to the end of first year**
 ```yml
