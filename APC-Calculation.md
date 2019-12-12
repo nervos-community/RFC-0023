@@ -59,12 +59,12 @@ We should separately calculate the compensation rate, and combine them.
 ```yml
 // first half year:
 C_3_5 = 33.6 + 4.2*3.5 + 1.344*3.5 = 53.004
-S_n = 1.344 / 2 = 0.672
+S_n = 1.344 * 0.5 = 0.672
 a = 4.2/1.344 = 3.125
 r_1 = 0.0124
 // sencond half year:
 C_4 = 33.6 + 4.2*4 + 1.344*4 = 55.776
-S_n = 1.344 / 2 = 0.672
+S_n = 1.344 * 0.5 = 0.672
 a = 2.1/1.344 = 3.125 = 1.5625
 r_2 = 0.0119
 // combine
@@ -95,5 +95,5 @@ APC = (1+0.0124)*(1+0.0119) - 1 = 2.44%
 - `p_1`: primary issuance per epoch in first 4-year-half period, equals to `4.2B / 2190`
 - `p_2`: primary issuance per epoch in second 4-year-half period, equals to `2.1B / 2190`
 - `a_1`: the ratio of primary issuance to secondary issuance in first 4-year-half period, `4.2/1.344 = 3.125`
-- `a_2`: the ratio of primary issuance to secondary issuance in first 4-year-half period, `2.1/1.344 = 1.5625`
+- `a_2`: the ratio of primary issuance to secondary issuance in second 4-year-half period, `2.1/1.344 = 1.5625`
 
