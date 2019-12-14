@@ -37,7 +37,7 @@ CKB 的发行曲线由两部分组成：
 
 ## 取款
 
-用户可以随时发送交易从 Nervos DAO 中取出已存储的 CKByte（但这里会涉及到一个锁定期来确定什么时候可以取出代币）。一个 Nervos DAO Cell 获得的利息只会在取出阶段发放，这意味着对于一个包含 Nervos DAO 提取交易来说，所有 Onput Cell 的Capacity 总和可能超过所有 Input Cell 的 Capacity 总和。与存款过程不同，从 Nervos DAO 取出需要两个步骤：
+用户可以随时发送交易从 Nervos DAO 中取出已存储的 CKByte（但这里会涉及到一个锁定期来确定什么时候可以取出代币）。一个 Nervos DAO Cell 获得的利息只会在取出阶段发放，这意味着对于一个包含 Nervos DAO 提取交易来说，所有 Output Cell 的 Capacity 总和可能超过所有 Input Cell 的 Capacity 总和。与存款过程不同，从 Nervos DAO 取出需要两个步骤：
 
 * 在第一阶段，第一个交易是将 Nervos DAO 存款单转换为 Nervos DAO 取款单。
 * 在第二阶段，第二个交易是从 Nervos DAO 取款单中提取代币。
@@ -50,7 +50,7 @@ CKB 的发行曲线由两部分组成：
 
 * 交易中应包含一个或多个 Nervos DAO 存款单作为输入。
 * 对于每个 Nervos DAO 存款单来说，交易需要在 `header_deps` 中包含对其相关（存款）区块的引用，Nervos DAO 类型脚本将以此作为存款的起点。
-* 在 Input 索引 `i` 中的 Nervos DAO 存款单，应该在 Onput 索引 `i`  中创建 Nervos DAO 取款单，并满足以下要求：
+* 在 Input 索引 `i` 中的 Nervos DAO 存款单，应该在 Output 索引 `i`  中创建 Nervos DAO 取款单，并满足以下要求：
     * 取款单应该与存款单具有相同的锁定脚本
     * 取款单应该与存款单具有相同的 Nervos DAO 类型脚本
     * 取款单应该与存款单具有相同的 Capacity
@@ -72,7 +72,7 @@ CKB 的发行曲线由两部分组成：
     * `header_deps` 中存入区块头哈希的索引应该使用 64 位未签名小端序整数格式，并保存在属于相应 Witness 输入 Cell 类型脚本部分的索引 `i` 中。Witness 当前的论证组织将会在另外一个单独的 RFC 中阐述。下面我们还将通过一个详细的例子来介绍这个过程。
 * 对于一个 Nervos DAO 取款单来说，Cell 交易输入中的 `since` 字段应该反映 Nervos DAO Cell 的锁定周期要求，即 180 个 Epoch。例如，如果一个人在第五个 Epoch 存入 Nervos DAO，则他/她只能在第 185、365 或 545 等 Epoch 从 Nervos DAO 中取出。注意，锁定期的计算与利息的计算无关。在第五个 Epoch 存入，在第一百个 Epoch 使用 `withdraw block`，在第 185 个 Epoch 使用 `since` 字段是完全有效的。请参考 [since RFC](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md) 来了解如何表示有效的 Epoch 数，Nervos DAO 类型脚本目前只接受绝对的 Epoch 数作为 since 值。
 * 利息计算逻辑完全独立于锁定期限的计算逻辑，我们将在下一节中解释利息计算逻辑。
-* Nervos DAO 类型脚本中，所有 Input Cell 的 Capacity 加上利息的总和应该大于或等于所有 Onput Cell 的 Capacity 的总和。
+* Nervos DAO 类型脚本中，所有 Input Cell 的 Capacity 加上利息的总和应该大于或等于所有 Output Cell 的 Capacity 的总和。
 * Nervos DAO 类型脚本应该被包含在 `cell_deps` 中。
 
 正如上面的步骤所示的那样，在一个交易中执行多个取款是完全有可能的。更重要的是，Nervos DAO 并没有限制提取代币的目的，在同一交易中，将刚提取的代币重新存入 Nervos DAO 中也是有效的。实际上，一个交易可以用来自由地混合以下所有操作：
@@ -99,9 +99,9 @@ CKB 的区块头有一个名为 `dao` 的特殊字段，其中包含了使用 Ne
 * `p_i`：区块 `i` 应得的基础发行
 * `s_i`：区块 `i` 应得的二级发行
 * `U_{in,i}`：区块 `i` 中所有 Input Cell 占用的空间之和
-* `U_{out,i}`：区块 `i` 中所有 Onput Cell 占用的空间之和
+* `U_{out,i}`：区块 `i` 中所有 Output Cell 占用的空间之和
 * `C_{in,i}`：区块 `i` 中所有 Input Cell 的 Capacity 之和
-* `C_{out,i}`：区块 `i` 中所有 Onput Cell 的 Capacity 之和
+* `C_{out,i}`：区块 `i` 中所有 Output Cell 的 Capacity 之和
 * `I_i`：所有 Nervos DAO 的利息之和
 
 创世块中初始值的定义如下：
