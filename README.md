@@ -19,7 +19,7 @@ Nervos DAO 是一个智能合约，就像 CKB 上其他的智能合约一样，�
 CKB 的发行曲线由两部分组成：
 
 * 基础发行：奖励给矿工的有硬顶的代币发行，使用与比特币相同的发行曲线，约每 4 年减半。
-* 二级发行：常量发行，每个难度调节周期（Epoch）都会发行相同数量的 CKByte，这意味着随着时间的推移，二级发行比率将逐渐趋近于零。[因为每个 Epoch 内的区块数量是动态调整的](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0020-ckb-)，所以每个区块的二级发行会是一个变量。
+* 二级发行：常量发行，每个难度调节周期（Epoch）都会发行相同数量的 CKByte，这意味着随着时间的推移，二级发行比率将逐渐趋近于零。[因为每个 Epoch 内的区块数量是动态调整的](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0020-ckb-consensus-protocol/0020-ckb-consensus-protocol.md)，所以每个区块的二级发行会是一个变量。
 
 如果在 CKB 中只有基础发行而没有二级发行，那么 CKByte 的总供应量将会存在一个硬顶，其发行曲线将会和比特币完全一样。为了保障 CKB 的长期持有者不被二级发行稀释，在 Nervos DAO 中锁定的 CKByte 将获得部分比例的二级发行，该比例等于锁定在 Nervos DAO 中的 CKByte 占整个 CKByte 流通量的百分比。
 
